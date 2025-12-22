@@ -18,11 +18,11 @@
     "noImplicitReturns": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node"],
+    "types": ["jest", "node"],
     "skipLibCheck": true,
     "experimentalDecorators": true
     // "baseUrl": "./"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "jest/**/*.ts"],
   "exclude": ["node_modules"]
 }
