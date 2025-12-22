@@ -4,7 +4,7 @@ import { IRestaurant } from './restaurant.interface';
 
 export interface IRestaurantService {
   createRestaurant(restaurant: IRestaurant): Promise<IRestaurant>;
-  getAllRestaurants(): Promise<Array<IRestaurant>>;
+  getAllRestaurants(): Promise<IRestaurant[]>;
 }
 
 export interface IParamsRestaurantService {

@@ -26,7 +26,7 @@ export class RestaurantService implements IRestaurantService {
     return createdRestaurant;
   }
 
-  async getAllRestaurants(): Promise<Array<IRestaurant>> {
+  async getAllRestaurants(): Promise<IRestaurant[]> {
     const restaurants = await this.restaurantRepositoryRead.getAll();
 
     return restaurants;

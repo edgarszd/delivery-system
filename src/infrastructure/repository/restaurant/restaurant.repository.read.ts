@@ -4,7 +4,7 @@ import { MRestaurant } from '../../database/mongo/schemas/restaurant.schema';
 import { dbRestaurantToInternal } from './adapters/restaurant.adapter';
 
 export class RestaurantRepositoryRead implements IRestaurantRepositoryRead {
-  async getAll(): Promise<Array<IRestaurant>> {
+  async getAll(): Promise<IRestaurant[]> {
     const result = await MRestaurant.find({});
 
     const restaurants = result.map(dbRestaurantToInternal);
