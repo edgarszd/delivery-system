@@ -2,6 +2,7 @@ import { createApp } from '../src/app';
 import { Express } from 'express';
 import mongoose from 'mongoose';
 import { DATABASE_URI, DATABASE_NAME } from '../src/configurations/env-constants';
+import { MRestaurant } from '../src/infrastructure/database/mongo/schemas/restaurant.schema';
 
 let dbInstance: mongoose.Mongoose;
 export let app: Express;
@@ -13,4 +14,11 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await dbInstance?.connection.close();
+});
+
+afterEach(async () => {
+  jest.clearAllMocks();
+  await Promise.all([
+    MRestaurant.deleteMany(),
+  ]);
 });
