@@ -1,0 +1,93 @@
+openapi: '3.0.2'
+info:
+  title: Delivery System
+  version: '1.0'
+
+servers:
+  - url: http://localhost:3000
+    description: Internal staging server for testing
+
+paths:
+  /restaurants:
+    get:
+      tags:
+        - Restaurants
+      summary: List all restaurants.
+      responses:
+        "200":
+          description: A JSON of all Restaurants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Restaurant"
+        default:
+          $ref: "#/components/responses/Error"
+    post:
+      tags:
+        - Restaurants
+      summary: Create a restaurant.
+      requestBody:
+        description: Restaurant details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - name
+                - address
+              properties:
+                name:
+                  type: string
+                address:
+                  type: string
+            example:
+              name: Burguer House
+              address: Rua XPTO, 123
+      responses:
+        "201":
+          description: A JSON of created Restaurant
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Restaurant"
+        default:
+          $ref: "#/components/responses/Error"
+
+components:
+  responses:
+    Error:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    ObjectID:
+      type: string
+      pattern: '^[0-9a-fA-F]{24}$'
+
+    Error:
+      required:
+        - message
+      properties:
+        message:
+          type: string
+
+    Restaurant:
+        type: object
+        required:
+          - _id
+          - name
+          - address
+        properties:
+          _id:
+            $ref: '#/components/schemas/ObjectID'
+          name:
+            type: string
+          address:
+            type: string
