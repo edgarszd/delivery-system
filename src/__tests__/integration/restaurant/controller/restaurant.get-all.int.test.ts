@@ -10,11 +10,11 @@ beforeAll(async () => {
     const createdRestaurants = await MRestaurant.create([
         {
             name: 'Restaurant A',
-            address: 'Rua A, 123',
+            address: '123 Main Street, Apt 4A.',
         },
         {
             name: 'Restaurant B',
-            address: 'Rua B, 124',
+            address: '123 Main Street, Apt 4B.',
         }
     ]);
 

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { IRestaurant } from '../../../domain/restaurant/entity/interfaces/restaurant.interface';
 import { RestaurantEntity } from '../../../domain/restaurant/entity/restaurant.entity';
 
@@ -5,9 +6,9 @@ let restaurant: IRestaurant;
 
 beforeEach(() => {
   restaurant = {
-    _id: 'valid id',
-    name: 'Restaurante X',
-    address: 'Rua A, 133',
+    _id: new mongoose.Types.ObjectId().toHexString(),
+    name: 'Restaurant X',
+    address: '123 Main Street, Apt 4B.',
   };
 });
 

@@ -8,7 +8,7 @@ let restaurant: IRestaurant;
 beforeEach(() => {
   restaurant = {
     name: 'Restaurant X',
-    address: 'Rua A, 133',
+    address: '123 Main Street, Apt 4B.',
   };
 });
 
