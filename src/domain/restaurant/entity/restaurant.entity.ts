@@ -9,7 +9,7 @@ export class RestaurantEntity implements IRestaurant {
   address: string;
 
   constructor(restaurant: IRestaurant) {
-    this.validate(this);
+    this.validate(restaurant);
 
     this._id = restaurant._id;
     this.name = restaurant.name;
