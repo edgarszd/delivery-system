@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { IController } from "./controller.interface";
-import { IProductService } from "../../domain/product/entity/interfaces/product.service.interface";
+import { IController } from './controller.interface';
+import { IProductService } from '../../domain/product/entity/interfaces/product.service.interface';
 import { IProduct } from '../../domain/product/entity/interfaces/product.interface';
 
 export class ProductController implements IController {
@@ -35,8 +35,7 @@ export class ProductController implements IController {
         categoryId: id,
       };
 
-      const result =
-        await this.productService.createProduct(productData);
+      const result = await this.productService.createProduct(productData);
 
       res.status(201).send(result);
     } catch (error) {
