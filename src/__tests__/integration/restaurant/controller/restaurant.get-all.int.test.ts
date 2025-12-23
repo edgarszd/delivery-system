@@ -7,28 +7,28 @@ import { MRestaurant } from '../../../../infrastructure/database/mongo/schemas/r
 let restaurants: IRestaurant[];
 
 beforeAll(async () => {
-    const createdRestaurants = await MRestaurant.create([
-        {
-            name: 'Restaurant A',
-            address: '123 Main Street, Apt 4A.',
-        },
-        {
-            name: 'Restaurant B',
-            address: '123 Main Street, Apt 4B.',
-        }
-    ]);
+  const createdRestaurants = await MRestaurant.create([
+    {
+      name: 'Restaurant A',
+      address: '123 Main Street, Apt 4A.',
+    },
+    {
+      name: 'Restaurant B',
+      address: '123 Main Street, Apt 4B.',
+    },
+  ]);
 
-    restaurants = createdRestaurants.map(dbRestaurantToInternal);
+  restaurants = createdRestaurants.map(dbRestaurantToInternal);
 });
 
 describe('Get All Restaurants - Integration Tests', () => {
-    it(`Should return a list of restaurants
+  it(`Should return a list of restaurants
     status code: 200
     route: GET /restaurants`, async () => {
-        const response = await request(app).get('/restaurants');
+    const response = await request(app).get('/restaurants');
 
-        expect(response.body).toEqual(restaurants);
+    expect(response.body).toEqual(restaurants);
 
-        expect(response.status).toBe(200);
-    });
+    expect(response.status).toBe(200);
+  });
 });
