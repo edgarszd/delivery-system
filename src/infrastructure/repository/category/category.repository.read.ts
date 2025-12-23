@@ -7,10 +7,18 @@ export class CategoryRepositoryRead implements ICategoryRepositoryRead {
   async getCategoriesByRestaurantId(
     restaurantId: string,
   ): Promise<ICategory[]> {
-    const result = await MCategory.find({ restaurantId }).sort({ index: 1 });
+    const result = await MCategory.find({ restaurantId })
+      .sort({ index: 1 })
+      .lean();
 
     const categories = result.map(dbCategoryToInternal);
 
     return categories;
+  }
+
+  async getCategoryById(categoryId: string): Promise<ICategory | null> {
+    const result = await MCategory.findOne({ _id: categoryId }).lean();
+
+    return result ? dbCategoryToInternal(result) : null;
   }
 }

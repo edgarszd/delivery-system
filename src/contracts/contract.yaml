@@ -115,6 +115,71 @@ paths:
                 $ref: '#/components/schemas/Category'
         default:
           $ref: "#/components/responses/Error"
+  
+  /categories/{id}/products:
+    get:
+      tags:
+        - Products
+      description: List all the products of a category.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the category.
+          schema:
+            $ref: '#/components/schemas/ObjectID'
+      responses:
+        "200":
+          description: A JSON of all Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        default:
+          $ref: "#/components/responses/Error"
+    post:
+      tags:
+        - Products
+      description: Create a product of a category.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the category.
+          schema:
+            $ref: '#/components/schemas/ObjectID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - name
+                - price
+                - description
+                - isAvailable
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                isAvailable:
+                  type: boolean
+      responses:
+        '201':
+          description: A JSON of created Product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        default:
+          $ref: "#/components/responses/Error"
 
 components:
   responses:
@@ -168,3 +233,29 @@ components:
           type: string
         index:
           type: number
+
+    Product:
+      type: object
+      required:
+        - _id
+        - categoryId
+        - restaurantId
+        - name
+        - price
+        - description
+        - isAvailable
+      properties:
+        _id:
+          $ref: '#/components/schemas/ObjectID'
+        categoryId:
+          $ref: '#/components/schemas/ObjectID'
+        restaurantId:
+          $ref: '#/components/schemas/ObjectID'
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+        isAvailable:
+          type: boolean

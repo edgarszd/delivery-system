@@ -6,6 +6,7 @@ import * as OpenApiValidator from 'express-openapi-validator';
 import { RestaurantControllerFactory } from './configurations/factory/restaurant/restaurant.controller.factory';
 import { OpenApiHttpError } from './application/exceptions/http.error';
 import { CategoryControllerFactory } from './configurations/factory/category/category.controller.factory';
+import { ProductControllerFactory } from './configurations/factory/product/product.controller.factory';
 
 export function createApp(): Express {
   const SPEC_PATH = './src/contracts/contract.yaml';
@@ -28,6 +29,7 @@ export function createApp(): Express {
 
   app.use('/', RestaurantControllerFactory.create().getRoutes());
   app.use('/', CategoryControllerFactory.create().getRoutes());
+  app.use('/', ProductControllerFactory.create().getRoutes());
 
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof OpenApiHttpError) {
