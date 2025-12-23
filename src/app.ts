@@ -7,6 +7,7 @@ import { RestaurantControllerFactory } from './configurations/factory/restaurant
 import { OpenApiHttpError } from './application/exceptions/http.error';
 import { CategoryControllerFactory } from './configurations/factory/category/category.controller.factory';
 import { ProductControllerFactory } from './configurations/factory/product/product.controller.factory';
+import { OrderControllerFactory } from './configurations/factory/order/order.controller.factory';
 
 export function createApp(): Express {
   const SPEC_PATH = './src/contracts/contract.yaml';
@@ -30,6 +31,7 @@ export function createApp(): Express {
   app.use('/', RestaurantControllerFactory.create().getRoutes());
   app.use('/', CategoryControllerFactory.create().getRoutes());
   app.use('/', ProductControllerFactory.create().getRoutes());
+  app.use('/', OrderControllerFactory.create().getRoutes());
 
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof OpenApiHttpError) {
