@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { IRestaurant } from '../../../domain/restaurant/entity/interfaces/restaurant.interface';
-import { RestaurantEntity } from '../../../domain/restaurant/entity/restaurant.entity';
+import { IRestaurant } from '../../domain/restaurant/entity/interfaces/restaurant.interface';
+import { RestaurantEntity } from '../../domain/restaurant/entity/restaurant.entity';
 
 let restaurant: IRestaurant;
 

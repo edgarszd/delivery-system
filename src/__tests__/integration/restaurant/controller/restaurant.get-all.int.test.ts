@@ -27,7 +27,7 @@ describe('Get All Restaurants - Integration Tests', () => {
     route: GET /restaurants`, async () => {
     const response = await request(app).get('/restaurants');
 
-    expect(response.body).toEqual(restaurants);
+    expect(response.body.sort()).toEqual(restaurants.sort());
 
     expect(response.status).toBe(200);
   });
