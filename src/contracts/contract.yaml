@@ -61,7 +61,7 @@ paths:
     get:
       tags:
         - Categories
-      description: List all the categories of a restaurant.
+      description: List all the categories of a restaurant sorted by index.
       parameters:
         - name: id
           in: path
@@ -71,7 +71,7 @@ paths:
             $ref: '#/components/schemas/ObjectID'
       responses:
         "200":
-          description: A JSON of all Categories
+          description: A JSON of all Categories sorted by index
           content:
             application/json:
               schema:
@@ -181,6 +181,99 @@ paths:
         default:
           $ref: "#/components/responses/Error"
 
+  /orders:
+    post:
+      tags:
+        - Orders
+      description: Create a new order.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - restaurantId
+                - items
+                - priceTotal
+              properties:
+                restaurantId:
+                  $ref: '#/components/schemas/ObjectID'
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OrderProduct'
+                priceTotal:
+                  type: number
+      responses:
+        '201':
+          description: A JSON of created Order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        default:
+          $ref: "#/components/responses/Error"
+  
+  /restaurants/{id}/orders:
+    get:
+      tags:
+        - Orders
+      description: List all the orders of a restaurant.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the restaurant.
+          schema:
+            $ref: '#/components/schemas/ObjectID'
+      responses:
+        "200":
+          description: A JSON of all Orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+        default:
+          $ref: "#/components/responses/Error"
+  
+  /orders/{id}/status:
+    patch:
+      tags:
+        - Orders
+      description: Updates the status of an order.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the order.
+          schema:
+            $ref: '#/components/schemas/ObjectID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - status
+              properties:
+                status:
+                  $ref: '#/components/schemas/OrderStatus'
+      responses:
+        '200':
+          description: A JSON of updated Order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        default:
+          $ref: "#/components/responses/Error"
+
 components:
   responses:
     Error:
@@ -259,3 +352,45 @@ components:
           type: string
         isAvailable:
           type: boolean
+
+    OrderProduct:
+      type: object
+      required:
+        - productId
+        - quantity
+      properties:
+        productId:
+          $ref: '#/components/schemas/ObjectID'
+        quantity:
+          type: number
+    
+    OrderStatus:
+      type: string
+      enum:
+        - PENDING
+        - PREPARING
+        - OUT_FOR_DELIVERY
+        - COMPLETED
+        - CANCELED
+
+    Order:
+      type: object
+      required:
+        - _id
+        - restaurantId
+        - items
+        - priceTotal
+        - status
+      properties:
+        _id:
+          $ref: '#/components/schemas/ObjectID'
+        restaurantId:
+          $ref: '#/components/schemas/ObjectID'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+        priceTotal:
+          type: number
+        status:
+          $ref: '#/components/schemas/OrderStatus'
