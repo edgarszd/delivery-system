@@ -9,11 +9,11 @@ export class RestaurantEntity implements IRestaurant {
   address: string;
 
   constructor(restaurant: IRestaurant) {
+    this.validate(this);
+
     this._id = restaurant._id;
     this.name = restaurant.name;
     this.address = restaurant.address;
-
-    this.validate(this);
   }
 
   private validate(restaurant: IRestaurant): void {
