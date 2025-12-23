@@ -12,7 +12,7 @@ paths:
     get:
       tags:
         - Restaurants
-      summary: List all restaurants.
+      description: List all restaurants.
       responses:
         "200":
           description: A JSON of all Restaurants
@@ -27,7 +27,7 @@ paths:
     post:
       tags:
         - Restaurants
-      summary: Create a restaurant.
+      description: Create a restaurant.
       requestBody:
         description: Restaurant details
         required: true
@@ -56,6 +56,65 @@ paths:
                 $ref: "#/components/schemas/Restaurant"
         default:
           $ref: "#/components/responses/Error"
+  
+  /restaurants/{id}/categories:
+    get:
+      tags:
+        - Categories
+      description: List all the categories of a restaurant.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the restaurant.
+          schema:
+            $ref: '#/components/schemas/ObjectID'
+      responses:
+        "200":
+          description: A JSON of all Categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+        default:
+          $ref: "#/components/responses/Error"
+    post:
+      tags:
+        - Categories
+      description: Create a category for a restaurant.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the restaurant.
+          schema:
+            $ref: '#/components/schemas/ObjectID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - name
+                - index
+              properties:
+                name:
+                  type: string
+                index:
+                  type: number
+      responses:
+        '201':
+          description: A JSON of created Category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        default:
+          $ref: "#/components/responses/Error"
 
 components:
   responses:
@@ -72,6 +131,7 @@ components:
       pattern: '^[0-9a-fA-F]{24}$'
 
     Error:
+      type: object
       required:
         - message
       properties:
@@ -79,15 +139,32 @@ components:
           type: string
 
     Restaurant:
-        type: object
-        required:
-          - _id
-          - name
-          - address
-        properties:
-          _id:
-            $ref: '#/components/schemas/ObjectID'
-          name:
-            type: string
-          address:
-            type: string
+      type: object
+      required:
+        - _id
+        - name
+        - address
+      properties:
+        _id:
+          $ref: '#/components/schemas/ObjectID'
+        name:
+          type: string
+        address:
+          type: string
+    
+    Category:
+      type: object
+      required:
+        - _id
+        - restaurantId
+        - name
+        - index
+      properties:
+        _id:
+          $ref: '#/components/schemas/ObjectID'
+        restaurantId:
+          $ref: '#/components/schemas/ObjectID'
+        name:
+          type: string
+        index:
+          type: number
