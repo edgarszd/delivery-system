@@ -5,10 +5,16 @@ import { dbProductToInternal } from './adapters/product.adapter';
 
 export class ProductRepositoryRead implements IProductRepositoryRead {
   async getProductsByCategoryId(categoryId: string): Promise<IProduct[]> {
-    const result = await MProduct.find({ categoryId });
+    const result = await MProduct.find({ categoryId }).lean();
 
     const products = result.map(dbProductToInternal);
 
     return products;
+  }
+
+  async getProductById(productId: string): Promise<IProduct | null> {
+    const result = await MProduct.findOne({ _id: productId }).lean();
+
+    return result ? dbProductToInternal(result) : null;
   }
 }

@@ -1,3 +1,4 @@
+import { BusinessError } from '../../../application/exceptions/business.error';
 import { NotFoundError } from '../../../application/exceptions/not-found.error';
 import { IProductRepositoryRead } from '../../product/repository/product.repository.read.interface';
 import { IRestaurantRepositoryRead } from '../../restaurant/repository/restaurant.repository.read.interface';
@@ -37,7 +38,21 @@ export class OrderService implements IOrderService {
       );
     }
 
-    // TODO: Validar se produtos listado pertencem ao restaurante
+    for (const item of order.items) {
+      const product = await this.productRepositoryRead.getProductById(
+        item.productId,
+      );
+
+      if (!product) {
+        throw new NotFoundError(`Item ${item.productId} was not found.`);
+      }
+
+      if (product.restaurantId !== restaurant._id) {
+        throw new BusinessError(
+          `Product ${product.name} does not belong to the restaurant.`,
+        );
+      }
+    }
 
     const orderEntity = new OrderEntity(order);
 
