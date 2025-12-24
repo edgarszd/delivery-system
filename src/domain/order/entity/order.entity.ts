@@ -19,6 +19,7 @@ export class OrderEntity implements IOrder {
   constructor(order: IOrder) {
     this.validateOrder(order);
 
+    this._id = order._id;
     this.restaurantId = order.restaurantId;
     this.items = order.items;
     this.priceTotal = order.priceTotal;
