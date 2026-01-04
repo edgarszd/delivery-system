@@ -10,7 +10,7 @@ describe('Testing dbCategoryToInternal', () => {
     const imCategory: IMCategory = {
       _id: categoryId,
       restaurantId: restaurantId,
-      name: 'Lanches',
+      name: 'Candy',
       index: 1,
     };
 

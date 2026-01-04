@@ -2,14 +2,12 @@ import request from 'supertest';
 import { app } from '../../../../../jest/setup-integration-tests';
 import { IRestaurant } from '../../../../domain/restaurant/entity/interfaces/restaurant.interface';
 import { MRestaurant } from '../../../../infrastructure/database/mongo/schemas/restaurant.schema';
+import { generateRestaurant } from '../../../mocks-test';
 
 let restaurant: IRestaurant;
 
 beforeEach(() => {
-  restaurant = {
-    name: 'Restaurant X',
-    address: '123 Main Street, Apt 4B.',
-  };
+  restaurant = generateRestaurant({ _id: undefined });
 });
 
 describe('Create Restaurant - Integration Tests', () => {

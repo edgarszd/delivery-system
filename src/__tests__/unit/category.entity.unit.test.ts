@@ -1,16 +1,11 @@
-import mongoose from 'mongoose';
 import { ICategory } from '../../domain/category/entity/interfaces/category.interface';
 import { CategoryEntity } from '../../domain/category/entity/category.entity';
+import { generateCategory } from '../mocks-test';
 
 let category: ICategory;
 
 beforeEach(() => {
-  category = {
-    _id: new mongoose.Types.ObjectId().toHexString(),
-    restaurantId: new mongoose.Types.ObjectId().toHexString(),
-    name: 'Lanches',
-    index: 1,
-  };
+  category = generateCategory();
 });
 
 describe('Testing CategoryEntity', () => {
@@ -19,7 +14,7 @@ describe('Testing CategoryEntity', () => {
       it('should return a valid instance', () => {
         const categoryInstance = new CategoryEntity(category);
 
-        expect(categoryInstance).toMatchObject(category);
+        expect(categoryInstance).toEqual(category);
       });
 
       it('should return a valid instance without _id', () => {
@@ -27,8 +22,7 @@ describe('Testing CategoryEntity', () => {
 
         const categoryInstance = new CategoryEntity(category);
 
-        expect(categoryInstance._id).toBeUndefined();
-        expect(categoryInstance).toMatchObject(category);
+        expect(categoryInstance).toEqual(category);
       });
     });
   });

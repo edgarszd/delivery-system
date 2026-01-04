@@ -3,6 +3,9 @@ import { Express } from 'express';
 import mongoose from 'mongoose';
 import { DATABASE_URI, DATABASE_NAME } from '../src/configurations/env-constants';
 import { MRestaurant } from '../src/infrastructure/database/mongo/schemas/restaurant.schema';
+import { MCategory } from '../src/infrastructure/database/mongo/schemas/category.schema';
+import { MProduct } from '../src/infrastructure/database/mongo/schemas/product.schema';
+import { MOrder } from '../src/infrastructure/database/mongo/schemas/order.schema';
 
 let dbInstance: mongoose.Mongoose;
 export let app: Express;
@@ -20,5 +23,8 @@ afterEach(async () => {
   jest.clearAllMocks();
   await Promise.all([
     MRestaurant.deleteMany(),
+    MCategory.deleteMany(),
+    MProduct.deleteMany(),
+    MOrder.deleteMany(),
   ]);
 });

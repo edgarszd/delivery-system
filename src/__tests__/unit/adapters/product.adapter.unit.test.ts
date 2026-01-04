@@ -12,9 +12,9 @@ describe('Testing dbProductToInternal', () => {
       _id: categoryId,
       categoryId: categoryId,
       restaurantId: restaurantId,
-      name: 'Refrigerante',
+      name: 'KitRat',
       price: 9.99,
-      description: 'Refrigerante de cola',
+      description: 'A chocolate in the shape of a mouse',
       isAvailable: true,
     };
 

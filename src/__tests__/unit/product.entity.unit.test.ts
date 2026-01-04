@@ -1,19 +1,11 @@
-import mongoose from 'mongoose';
 import { IProduct } from '../../domain/product/entity/interfaces/product.interface';
 import { ProductEntity } from '../../domain/product/entity/product.entity';
+import { generateProduct } from '../mocks-test';
 
 let product: IProduct;
 
 beforeEach(() => {
-  product = {
-    _id: new mongoose.Types.ObjectId().toHexString(),
-    categoryId: new mongoose.Types.ObjectId().toHexString(),
-    restaurantId: new mongoose.Types.ObjectId().toHexString(),
-    name: 'Refrigerante',
-    price: 9.99,
-    description: 'Refrigerante de cola',
-    isAvailable: true,
-  };
+  product = generateProduct();
 });
 
 describe('Testing ProductEntity', () => {
@@ -22,7 +14,7 @@ describe('Testing ProductEntity', () => {
       it('should return a valid instance', () => {
         const productInstance = new ProductEntity(product);
 
-        expect(productInstance).toMatchObject(product);
+        expect(productInstance).toEqual(product);
       });
 
       it('should return a valid instance without _id', () => {
@@ -30,8 +22,7 @@ describe('Testing ProductEntity', () => {
 
         const productInstance = new ProductEntity(product);
 
-        expect(productInstance._id).toBeUndefined();
-        expect(productInstance).toMatchObject(product);
+        expect(productInstance).toEqual(product);
       });
     });
   });

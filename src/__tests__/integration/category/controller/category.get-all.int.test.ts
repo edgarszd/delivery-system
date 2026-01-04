@@ -1,32 +1,27 @@
 import request from 'supertest';
+import mongoose from 'mongoose';
 import { app } from '../../../../../jest/setup-integration-tests';
 import { ICategory } from '../../../../domain/category/entity/interfaces/category.interface';
-import { IRestaurant } from '../../../../domain/restaurant/entity/interfaces/restaurant.interface';
 import { MCategory } from '../../../../infrastructure/database/mongo/schemas/category.schema';
 import { MRestaurant } from '../../../../infrastructure/database/mongo/schemas/restaurant.schema';
 import { dbCategoryToInternal } from '../../../../infrastructure/repository/category/adapters/category.adapter';
-import { dbRestaurantToInternal } from '../../../../infrastructure/repository/restaurant/adapters/restaurant.adapter';
+import { generateRestaurant } from '../../../mocks-test';
+
+const restaurantId = new mongoose.Types.ObjectId().toHexString();
 
 let categories: ICategory[];
 
-let existingRestaurant: IRestaurant;
-
-beforeAll(async () => {
-  const createdRestaurant = await MRestaurant.create({
-    name: 'Restaurant A',
-    address: '123 Main Street, Apt 4A.',
-  });
-
-  existingRestaurant = dbRestaurantToInternal(createdRestaurant);
+beforeEach(async () => {
+  await MRestaurant.create(generateRestaurant({ _id: restaurantId }));
 
   const createdCategories = await MCategory.create([
     {
-      restaurantId: existingRestaurant._id,
+      restaurantId: restaurantId,
       name: 'Lanches',
       index: 1,
     },
     {
-      restaurantId: existingRestaurant._id,
+      restaurantId: restaurantId,
       name: 'Bebidas',
       index: 2,
     },
@@ -40,7 +35,7 @@ describe('Get All Categories - Integration Tests', () => {
     status code: 200
     route: GET /restaurants/:id/categories`, async () => {
     const response = await request(app).get(
-      `/restaurants/${existingRestaurant._id}/categories`,
+      `/restaurants/${restaurantId}/categories`,
     );
 
     expect(response.body).toEqual(categories);

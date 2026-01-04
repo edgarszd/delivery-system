@@ -1,15 +1,11 @@
-import mongoose from 'mongoose';
 import { IRestaurant } from '../../domain/restaurant/entity/interfaces/restaurant.interface';
 import { RestaurantEntity } from '../../domain/restaurant/entity/restaurant.entity';
+import { generateRestaurant } from '../mocks-test';
 
 let restaurant: IRestaurant;
 
 beforeEach(() => {
-  restaurant = {
-    _id: new mongoose.Types.ObjectId().toHexString(),
-    name: 'Restaurant X',
-    address: '123 Main Street, Apt 4B.',
-  };
+  restaurant = generateRestaurant();
 });
 
 describe('Testing RestaurantEntity', () => {
@@ -18,9 +14,7 @@ describe('Testing RestaurantEntity', () => {
       it('should return a valid instance', () => {
         const restaurantInstance = new RestaurantEntity(restaurant);
 
-        expect(restaurantInstance._id).toBe(restaurant._id);
-        expect(restaurantInstance.name).toBe(restaurant.name);
-        expect(restaurantInstance.address).toBe(restaurant.address);
+        expect(restaurantInstance).toEqual(restaurant);
       });
 
       it('should return a valid instance without _id', () => {
@@ -28,9 +22,7 @@ describe('Testing RestaurantEntity', () => {
 
         const restaurantInstance = new RestaurantEntity(restaurant);
 
-        expect(restaurantInstance._id).toBeUndefined();
-        expect(restaurantInstance.name).toBe(restaurant.name);
-        expect(restaurantInstance.address).toBe(restaurant.address);
+        expect(restaurantInstance).toEqual(restaurant);
       });
     });
   });
@@ -43,7 +35,7 @@ describe('Testing RestaurantEntity', () => {
           restaurant.name = emptyName;
 
           expect(() => new RestaurantEntity(restaurant)).toThrow(
-            /^The restaurant's name cannot be empty!$/,
+            `The restaurant's name cannot be empty!`,
           );
         },
       );
@@ -56,7 +48,7 @@ describe('Testing RestaurantEntity', () => {
           restaurant.address = emptyAddress;
 
           expect(() => new RestaurantEntity(restaurant)).toThrow(
-            /^The restaurant's address cannot be empty!$/,
+            `The restaurant's address cannot be empty!`,
           );
         },
       );

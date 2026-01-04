@@ -11,7 +11,7 @@ const restaurantId = new mongoose.Types.ObjectId().toHexString();
 
 let products: IProduct[];
 
-beforeAll(async () => {
+beforeEach(async () => {
   const createdProducts = await MProduct.create([
     {
       categoryId: categoryId,

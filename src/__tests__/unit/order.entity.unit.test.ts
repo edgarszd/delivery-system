@@ -1,28 +1,11 @@
-import mongoose from 'mongoose';
-import {
-  EOrderStatus,
-  IOrder,
-  IOrderProduct,
-} from '../../domain/order/entity/interfaces/order.interface';
+import { IOrder } from '../../domain/order/entity/interfaces/order.interface';
 import { OrderEntity } from '../../domain/order/entity/order.entity';
+import { generateOrder } from '../mocks-test';
 
 let order: IOrder;
 
 beforeEach(() => {
-  const items: IOrderProduct[] = [
-    {
-      productId: new mongoose.Types.ObjectId().toHexString(),
-      quantity: 2,
-    },
-  ];
-
-  order = {
-    _id: new mongoose.Types.ObjectId().toHexString(),
-    restaurantId: new mongoose.Types.ObjectId().toHexString(),
-    items: items,
-    priceTotal: 25.99,
-    status: EOrderStatus.PENDING,
-  };
+  order = generateOrder();
 });
 
 describe('Testing OrderEntity', () => {
@@ -31,7 +14,7 @@ describe('Testing OrderEntity', () => {
       it('should return a valid instance', () => {
         const orderInstance = new OrderEntity(order);
 
-        expect(orderInstance).toMatchObject(order);
+        expect(orderInstance).toEqual(order);
       });
 
       it('should return a valid instance without _id', () => {
@@ -39,8 +22,7 @@ describe('Testing OrderEntity', () => {
 
         const orderInstance = new OrderEntity(order);
 
-        expect(orderInstance._id).toBeUndefined();
-        expect(orderInstance).toMatchObject(order);
+        expect(orderInstance).toEqual(order);
       });
     });
   });

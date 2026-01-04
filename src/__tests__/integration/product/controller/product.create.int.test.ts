@@ -2,38 +2,26 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../../../../jest/setup-integration-tests';
 import { IProduct } from '../../../../domain/product/entity/interfaces/product.interface';
-import { ICategory } from '../../../../domain/category/entity/interfaces/category.interface';
 import { MCategory } from '../../../../infrastructure/database/mongo/schemas/category.schema';
-import { dbCategoryToInternal } from '../../../../infrastructure/repository/category/adapters/category.adapter';
-import { MRestaurant } from '../../../../infrastructure/database/mongo/schemas/restaurant.schema';
-import { dbRestaurantToInternal } from '../../../../infrastructure/repository/restaurant/adapters/restaurant.adapter';
-import { IRestaurant } from '../../../../domain/restaurant/entity/interfaces/restaurant.interface';
-import { IMCategory } from '../../../../infrastructure/database/mongo/models/category.model';
 import { MProduct } from '../../../../infrastructure/database/mongo/schemas/product.schema';
+import { generateCategory, generateProduct } from '../../../mocks-test';
 
 const restaurantId = new mongoose.Types.ObjectId().toHexString();
 
+const categoryId = new mongoose.Types.ObjectId().toHexString();
+
 let product: Omit<IProduct, 'categoryId'>;
 
-beforeEach(() => {
-  product = {
-    name: 'Refrigerante',
-    price: 9.99,
-    description: 'Refrigerante de cola',
-    isAvailable: true,
-  };
-});
-
-let existingCategory: ICategory;
-
-beforeAll(async () => {
-  const createdCategory = await MCategory.create({
-    restaurantId: restaurantId,
-    name: 'Lanches',
-    index: 1,
+beforeEach(async () => {
+  product = generateProduct({
+    _id: undefined,
+    categoryId: undefined,
+    restaurantId: undefined,
   });
 
-  existingCategory = dbCategoryToInternal(createdCategory);
+  await MCategory.create(
+    generateCategory({ _id: categoryId, restaurantId: restaurantId }),
+  );
 });
 
 describe('Create Product - Integration Tests', () => {
@@ -41,13 +29,13 @@ describe('Create Product - Integration Tests', () => {
     status code: 201
     route: POST /categories/:id/products`, async () => {
     const response = await request(app)
-      .post(`/categories/${existingCategory._id}/products`)
+      .post(`/categories/${categoryId}/products`)
       .send(product);
 
     const createdProduct = await MProduct.findById(response.body._id).lean();
 
     expect(response.body).toMatchObject({
-      categoryId: existingCategory._id,
+      categoryId: categoryId,
       restaurantId: restaurantId,
       name: product.name,
       price: product.price,
@@ -63,6 +51,7 @@ describe('Create Product - Integration Tests', () => {
   status code: 404
   route: POST /categories/:id/products`, async () => {
     const inexistingCategoryId = new mongoose.Types.ObjectId().toHexString();
+
     const response = await request(app)
       .post(`/categories/${inexistingCategoryId}/products`)
       .send(product);
@@ -76,7 +65,7 @@ describe('Create Product - Integration Tests', () => {
     product.name = '';
 
     const response = await request(app)
-      .post(`/categories/${existingCategory._id}/products`)
+      .post(`/categories/${categoryId}/products`)
       .send(product);
 
     expect(response.status).toBe(422);
@@ -88,7 +77,7 @@ describe('Create Product - Integration Tests', () => {
     product.price = -1;
 
     const response = await request(app)
-      .post(`/categories/${existingCategory._id}/products`)
+      .post(`/categories/${categoryId}/products`)
       .send(product);
 
     expect(response.status).toBe(422);
@@ -100,7 +89,7 @@ describe('Create Product - Integration Tests', () => {
     product.description = '';
 
     const response = await request(app)
-      .post(`/categories/${existingCategory._id}/products`)
+      .post(`/categories/${categoryId}/products`)
       .send(product);
 
     expect(response.status).toBe(422);
@@ -116,7 +105,7 @@ describe('Create Product - Integration Tests', () => {
     };
 
     const response = await request(app)
-      .post(`/categories/${existingCategory._id}/products`)
+      .post(`/categories/${categoryId}/products`)
       .send(incompleteProduct);
 
     expect(response.status).toBe(400);
@@ -131,7 +120,7 @@ describe('Create Product - Integration Tests', () => {
     };
 
     const response = await request(app)
-      .post(`/categories/${existingCategory._id}/products`)
+      .post(`/categories/${categoryId}/products`)
       .send(categoryWithExtraFields);
 
     expect(response.status).toBe(400);
