@@ -1,0 +1,1 @@
+export const sortById = (a: any, b: any) => a._id.localeCompare(b._id);

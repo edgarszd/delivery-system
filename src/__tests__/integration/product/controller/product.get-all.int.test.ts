@@ -4,6 +4,7 @@ import { app } from '../../../../../jest/setup-integration-tests';
 import { MProduct } from '../../../../infrastructure/database/mongo/schemas/product.schema';
 import { dbProductToInternal } from '../../../../infrastructure/repository/product/adapters/product.adapter';
 import { IProduct } from '../../../../domain/product/entity/interfaces/product.interface';
+import { sortById } from '../../../utils-test';
 
 const categoryId = new mongoose.Types.ObjectId().toHexString();
 
@@ -42,7 +43,7 @@ describe('Get All Products - Integration Tests', () => {
       `/categories/${categoryId}/products`,
     );
 
-    expect(response.body.sort()).toEqual(products.sort());
+    expect(response.body.sort(sortById)).toEqual(products.sort(sortById));
 
     expect(response.status).toBe(200);
   });

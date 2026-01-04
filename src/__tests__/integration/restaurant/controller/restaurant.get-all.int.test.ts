@@ -3,6 +3,7 @@ import { app } from '../../../../../jest/setup-integration-tests';
 import { dbRestaurantToInternal } from '../../../../infrastructure/repository/restaurant/adapters/restaurant.adapter';
 import { IRestaurant } from '../../../../domain/restaurant/entity/interfaces/restaurant.interface';
 import { MRestaurant } from '../../../../infrastructure/database/mongo/schemas/restaurant.schema';
+import { sortById } from '../../../utils-test';
 
 let restaurants: IRestaurant[];
 
@@ -27,7 +28,7 @@ describe('Get All Restaurants - Integration Tests', () => {
     route: GET /restaurants`, async () => {
     const response = await request(app).get('/restaurants');
 
-    expect(response.body.sort()).toEqual(restaurants.sort());
+    expect(response.body.sort(sortById)).toEqual(restaurants.sort(sortById));
 
     expect(response.status).toBe(200);
   });
