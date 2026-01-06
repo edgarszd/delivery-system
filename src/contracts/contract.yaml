@@ -13,6 +13,17 @@ paths:
       tags:
         - Restaurants
       description: List all restaurants.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return
+        - in: query
+          name: cursor
+          schema:
+            $ref: '#/components/schemas/ObjectID'
+          description: Restaurant ID used as a keyset for bidirectional pagination (next and previous pages)
       responses:
         "200":
           description: A JSON of all Restaurants
