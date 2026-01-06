@@ -15,7 +15,7 @@ export class RestaurantController implements IController {
 
   public initRoutes() {
     this.router.post('/restaurants', this.createRestaurant);
-    this.router.get('/restaurants', this.getAllRestaurants);
+    this.router.get('/restaurants', this.getRestaurants);
   }
 
   public getRoutes() {
@@ -39,13 +39,15 @@ export class RestaurantController implements IController {
     }
   };
 
-  getAllRestaurants = async (
-    req: Request<{}, {}, {}, {}>,
+  getRestaurants = async (
+    req: Request<{}, {}, {}, { limit: number; cursor: string }>,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const result = await this.restaurantService.getAllRestaurants();
+      const { limit, cursor } = req.query;
+
+      const result = await this.restaurantService.getRestaurants(limit, cursor);
 
       res.status(200).send(result);
     } catch (error) {

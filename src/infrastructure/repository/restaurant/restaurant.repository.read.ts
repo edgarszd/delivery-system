@@ -4,8 +4,16 @@ import { MRestaurant } from '../../database/mongo/schemas/restaurant.schema';
 import { dbRestaurantToInternal } from './adapters/restaurant.adapter';
 
 export class RestaurantRepositoryRead implements IRestaurantRepositoryRead {
-  async getAll(): Promise<IRestaurant[]> {
-    const result = await MRestaurant.find({}).lean();
+  async getRestaurants(
+    limit: number = 10,
+    cursor?: string,
+  ): Promise<IRestaurant[]> {
+    const filter = cursor ? { _id: { $gt: cursor } } : {};
+
+    const result = await MRestaurant.find(filter)
+      .sort({ _id: 1 })
+      .limit(limit)
+      .lean();
 
     const restaurants = result.map(dbRestaurantToInternal);
 
