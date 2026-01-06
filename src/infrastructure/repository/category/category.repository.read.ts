@@ -17,7 +17,7 @@ export class CategoryRepositoryRead implements ICategoryRepositoryRead {
   }
 
   async getCategoryById(categoryId: string): Promise<ICategory | null> {
-    const result = await MCategory.findOne({ _id: categoryId }).lean();
+    const result = await MCategory.findById(categoryId).lean();
 
     return result ? dbCategoryToInternal(result) : null;
   }

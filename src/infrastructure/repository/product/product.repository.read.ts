@@ -13,7 +13,7 @@ export class ProductRepositoryRead implements IProductRepositoryRead {
   }
 
   async getProductById(productId: string): Promise<IProduct | null> {
-    const result = await MProduct.findOne({ _id: productId }).lean();
+    const result = await MProduct.findById(productId).lean();
 
     return result ? dbProductToInternal(result) : null;
   }
