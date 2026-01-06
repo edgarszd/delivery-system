@@ -1,5 +1,4 @@
 import { IMCategory } from '../models/category.model';
-import { IMRestaurant } from '../models/restaurant.model';
 import mongoose from 'mongoose';
 
 const collectionName = 'category';
@@ -27,5 +26,7 @@ const CategorySchema = new mongoose.Schema<IMCategory>(
     timestamps: true,
   },
 );
+
+CategorySchema.index({ restaurantId: 1, index: 1 }, { unique: true });
 
 export const MCategory = mongoose.model<IMCategory>(schemaName, CategorySchema);
