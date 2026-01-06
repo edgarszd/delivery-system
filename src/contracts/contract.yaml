@@ -23,7 +23,7 @@ paths:
           name: cursor
           schema:
             $ref: '#/components/schemas/ObjectID'
-          description: Restaurant ID used as a keyset for bidirectional pagination (next and previous pages)
+          description: Identifier of the last item in the current page
       responses:
         "200":
           description: A JSON of all Restaurants
