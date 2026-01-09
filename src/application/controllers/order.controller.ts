@@ -18,8 +18,8 @@ export class OrderController implements IController {
 
   public initRoutes() {
     this.router.post('/orders', this.createOrder);
-    this.router.get('/restaurants/:id/orders', this.getAllOrders);
-    this.router.patch('/orders/:id/status', this.updateOrderStatus);
+    this.router.get('/restaurants/:restaurantId/orders', this.getAllOrders);
+    this.router.patch('/orders/:orderId/status', this.updateOrderStatus);
   }
 
   public getRoutes() {
@@ -46,14 +46,14 @@ export class OrderController implements IController {
   };
 
   getAllOrders = async (
-    req: Request<{ id: string }, {}, {}, {}>,
+    req: Request<{ restaurantId: string }, {}, {}, {}>,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const { id } = req.params;
+      const { restaurantId } = req.params;
 
-      const result = await this.orderService.getAllOrders(id);
+      const result = await this.orderService.getAllOrders(restaurantId);
 
       res.status(200).send(result);
     } catch (error) {
@@ -62,16 +62,16 @@ export class OrderController implements IController {
   };
 
   updateOrderStatus = async (
-    req: Request<{ id: string }, {}, { status: EOrderStatus }, {}>,
+    req: Request<{ orderId: string }, {}, { status: EOrderStatus }, {}>,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const { id } = req.params;
+      const { orderId } = req.params;
 
       const { status } = req.body;
 
-      const result = await this.orderService.updateOrderStatus(id, status);
+      const result = await this.orderService.updateOrderStatus(orderId, status);
 
       res.status(200).send(result);
     } catch (error) {

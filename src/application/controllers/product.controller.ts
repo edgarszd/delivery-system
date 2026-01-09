@@ -14,8 +14,8 @@ export class ProductController implements IController {
   }
 
   public initRoutes() {
-    this.router.post('/categories/:id/products', this.createProduct);
-    this.router.get('/categories/:id/products', this.getAllProducts);
+    this.router.post('/categories/:categoryId/products', this.createProduct);
+    this.router.get('/categories/:categoryId/products', this.getAllProducts);
   }
 
   public getRoutes() {
@@ -23,16 +23,16 @@ export class ProductController implements IController {
   }
 
   createProduct = async (
-    req: Request<{ id: string }, {}, Omit<IProduct, 'categoryId'>, {}>,
+    req: Request<{ categoryId: string }, {}, Omit<IProduct, 'categoryId'>, {}>,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const { id } = req.params;
+      const { categoryId } = req.params;
 
       const productData = {
         ...req.body,
-        categoryId: id,
+        categoryId: categoryId,
       };
 
       const result = await this.productService.createProduct(productData);
@@ -44,14 +44,14 @@ export class ProductController implements IController {
   };
 
   getAllProducts = async (
-    req: Request<{ id: string }, {}, {}, {}>,
+    req: Request<{ categoryId: string }, {}, {}, {}>,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const { id } = req.params;
+      const { categoryId } = req.params;
 
-      const result = await this.productService.getAllProducts(id);
+      const result = await this.productService.getAllProducts(categoryId);
 
       res.status(200).send(result);
     } catch (error) {

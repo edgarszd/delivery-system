@@ -14,8 +14,8 @@ export class CategoryController implements IController {
   }
 
   public initRoutes() {
-    this.router.post('/restaurants/:id/categories', this.createCategory);
-    this.router.get('/restaurants/:id/categories', this.getAllCategories);
+    this.router.post('/restaurants/:restaurantId/categories', this.createCategory);
+    this.router.get('/restaurants/:restaurantId/categories', this.getAllCategories);
   }
 
   public getRoutes() {
@@ -23,16 +23,16 @@ export class CategoryController implements IController {
   }
 
   createCategory = async (
-    req: Request<{ id: string }, {}, Omit<ICategory, 'restaurantId'>, {}>,
+    req: Request<{ restaurantId: string }, {}, Omit<ICategory, 'restaurantId'>, {}>,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const { id } = req.params;
+      const { restaurantId } = req.params;
 
       const categoryData = {
         ...req.body,
-        restaurantId: id,
+        restaurantId: restaurantId,
       };
 
       const result = await this.categoryService.createCategory(categoryData);
@@ -44,14 +44,14 @@ export class CategoryController implements IController {
   };
 
   getAllCategories = async (
-    req: Request<{ id: string }, {}, {}, {}>,
+    req: Request<{ restaurantId: string }, {}, {}, {}>,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const { id } = req.params;
+      const { restaurantId } = req.params;
 
-      const result = await this.categoryService.getAllCategories(id);
+      const result = await this.categoryService.getAllCategories(restaurantId);
 
       res.status(200).send(result);
     } catch (error) {
