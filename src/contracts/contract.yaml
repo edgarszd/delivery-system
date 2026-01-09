@@ -68,13 +68,13 @@ paths:
         default:
           $ref: "#/components/responses/Error"
   
-  /restaurants/{id}/categories:
+  /restaurants/{restaurantId}/categories:
     get:
       tags:
         - Categories
       description: List all the categories of a restaurant sorted by index.
       parameters:
-        - name: id
+        - name: restaurantId
           in: path
           required: true
           description: The ID of the restaurant.
@@ -96,7 +96,7 @@ paths:
         - Categories
       description: Create a category for a restaurant.
       parameters:
-        - name: id
+        - name: restaurantId
           in: path
           required: true
           description: The ID of the restaurant.
@@ -127,13 +127,13 @@ paths:
         default:
           $ref: "#/components/responses/Error"
   
-  /categories/{id}/products:
+  /categories/{categoryId}/products:
     get:
       tags:
         - Products
       description: List all the products of a category.
       parameters:
-        - name: id
+        - name: categoryId
           in: path
           required: true
           description: The ID of the category.
@@ -155,7 +155,7 @@ paths:
         - Products
       description: Create a product of a category.
       parameters:
-        - name: id
+        - name: categoryId
           in: path
           required: true
           description: The ID of the category.
@@ -227,13 +227,13 @@ paths:
         default:
           $ref: "#/components/responses/Error"
   
-  /restaurants/{id}/orders:
+  /restaurants/{restaurantId}/orders:
     get:
       tags:
         - Orders
       description: List all the orders of a restaurant.
       parameters:
-        - name: id
+        - name: restaurantId
           in: path
           required: true
           description: The ID of the restaurant.
@@ -251,13 +251,13 @@ paths:
         default:
           $ref: "#/components/responses/Error"
   
-  /orders/{id}/status:
+  /orders/{orderId}/status:
     patch:
       tags:
         - Orders
       description: Updates the status of an order.
       parameters:
-        - name: id
+        - name: orderId
           in: path
           required: true
           description: The ID of the order.
