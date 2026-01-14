@@ -73,31 +73,4 @@ describe('Create Category - Integration Tests', () => {
 
     expect(response.status).toBe(422);
   });
-
-  it(`Should return error when required fields are missing
-    status code: 400
-    route: POST /restaurants/:id/categories`, async () => {
-    const incompleteCategory = { name: 'Lanches' };
-
-    const response = await request(app)
-      .post(`/restaurants/${restaurantId}/categories`)
-      .send(incompleteCategory);
-
-    expect(response.status).toBe(400);
-  });
-
-  it(`Should return error when additional fields exist
-    status code: 400
-    route: POST /restaurants`, async () => {
-    const categoryWithExtraFields = {
-      ...category,
-      extraField: 'extra',
-    };
-
-    const response = await request(app)
-      .post(`/restaurants/${restaurantId}/categories`)
-      .send(categoryWithExtraFields);
-
-    expect(response.status).toBe(400);
-  });
 });

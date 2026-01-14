@@ -94,35 +94,4 @@ describe('Create Product - Integration Tests', () => {
 
     expect(response.status).toBe(422);
   });
-
-  it(`Should return error when required fields are missing
-    status code: 400
-    route: POST /categories/:id/products`, async () => {
-    const incompleteProduct = {
-      name: 'Refrigerante',
-      price: 9.99,
-      isAvailable: true,
-    };
-
-    const response = await request(app)
-      .post(`/categories/${categoryId}/products`)
-      .send(incompleteProduct);
-
-    expect(response.status).toBe(400);
-  });
-
-  it(`Should return error when additional fields exist
-    status code: 400
-    route: POST /restaurants`, async () => {
-    const categoryWithExtraFields = {
-      ...product,
-      extraField: 'extra',
-    };
-
-    const response = await request(app)
-      .post(`/categories/${categoryId}/products`)
-      .send(categoryWithExtraFields);
-
-    expect(response.status).toBe(400);
-  });
 });

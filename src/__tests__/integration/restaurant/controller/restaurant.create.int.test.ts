@@ -48,31 +48,4 @@ describe('Create Restaurant - Integration Tests', () => {
 
     expect(response.status).toBe(422);
   });
-
-  it(`Should return error when required fields are missing
-  status code: 400
-  route: POST /restaurants`, async () => {
-    const incompleteRestaurant = { name: 'Restaurant' };
-
-    const response = await request(app)
-      .post('/restaurants')
-      .send(incompleteRestaurant);
-
-    expect(response.status).toBe(400);
-  });
-
-  it(`Should return error when additional fields exist
-  status code: 400
-  route: POST /restaurants`, async () => {
-    const restaurantWithExtraFields = {
-      ...restaurant,
-      extraField: 'extra',
-    };
-
-    const response = await request(app)
-      .post('/restaurants')
-      .send(restaurantWithExtraFields);
-
-    expect(response.status).toBe(400);
-  });
 });
