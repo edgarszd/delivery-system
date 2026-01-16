@@ -6,6 +6,7 @@ import {
 import { RestaurantEntity } from '../entity/restaurant.entity';
 import { IRestaurantRepositoryWrite } from '../repository/restaurant.repository.write.interface';
 import { IRestaurantRepositoryRead } from '../repository/restaurant.repository.read.interface';
+import { BusinessError } from '../../../application/exceptions/business.error';
 
 export class RestaurantService implements IRestaurantService {
   restaurantRepositoryWrite: IRestaurantRepositoryWrite;
@@ -30,6 +31,11 @@ export class RestaurantService implements IRestaurantService {
     limit?: number,
     cursor?: string,
   ): Promise<IRestaurant[]> {
+
+    if (limit !== undefined && (limit < 1 || limit > 100)) {
+      throw new BusinessError('Limit must be between 1 and 100.');
+    }
+
     const restaurants = await this.restaurantRepositoryRead.getRestaurants(
       limit,
       cursor,
