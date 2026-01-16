@@ -7,6 +7,7 @@ import { RestaurantEntity } from '../entity/restaurant.entity';
 import { IRestaurantRepositoryWrite } from '../repository/restaurant.repository.write.interface';
 import { IRestaurantRepositoryRead } from '../repository/restaurant.repository.read.interface';
 import { BusinessError } from '../../../application/exceptions/business.error';
+import { NotFoundError } from '../../../application/exceptions/not-found.error';
 
 export class RestaurantService implements IRestaurantService {
   restaurantRepositoryWrite: IRestaurantRepositoryWrite;
@@ -34,6 +35,14 @@ export class RestaurantService implements IRestaurantService {
 
     if (limit !== undefined && (limit < 1 || limit > 100)) {
       throw new BusinessError('Limit must be between 1 and 100.');
+    }
+
+    if (cursor) {
+      const restaurant = await this.restaurantRepositoryRead.getRestaurantById(cursor);
+      
+      if (!restaurant) {
+        throw new NotFoundError(`The restaurant with ID ${cursor} does not exist.`);
+      }
     }
 
     const restaurants = await this.restaurantRepositoryRead.getRestaurants(
