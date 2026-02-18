@@ -151,17 +151,17 @@ delivery-system/
 - `POST /restaurants` - Cria um novo restaurante
 
 ### Categorias
-- `GET /restaurants/{id}/categories` - Lista categorias de um restaurante (ordenadas por índice)
-- `POST /restaurants/{id}/categories` - Cria uma categoria para um restaurante
+- `GET /restaurants/{restaurantId}/categories` - Lista categorias de um restaurante (ordenadas por índice)
+- `POST /restaurants/{restaurantId}/categories` - Cria uma categoria para um restaurante
 
 ### Produtos
-- `GET /categories/{id}/products` - Lista produtos de uma categoria
-- `POST /categories/{id}/products` - Cria um produto em uma categoria
+- `GET /categories/{categoryId}/products` - Lista produtos de uma categoria
+- `POST /categories/{categoryId}/products` - Cria um produto em uma categoria
 
 ### Pedidos
 - `POST /orders` - Cria um novo pedido
-- `GET /restaurants/{id}/orders` - Lista pedidos de um restaurante
-- `PATCH /orders/{id}/status` - Atualiza o status de um pedido
+- `GET /restaurants/{restaurantId}/orders` - Lista pedidos de um restaurante
+- `PATCH /orders/{orderId}/status` - Atualiza o status de um pedido
 
 **Status de Pedidos disponíveis:**
 - `PENDING` - Pendente
