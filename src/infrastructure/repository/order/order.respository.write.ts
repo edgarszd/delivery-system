@@ -1,4 +1,3 @@
-import { NotFound } from 'express-openapi-validator/dist/openapi.validator';
 import {
   EOrderStatus,
   IOrder,
@@ -6,7 +5,6 @@ import {
 import { IOrderRepositoryWrite } from '../../../domain/order/repository/order.repository.write.interface';
 import { MOrder } from '../../database/mongo/schemas/order.schema';
 import { dbOrderToInternal } from './adapters/order.adapter';
-import { NotFoundError } from '../../../application/exceptions/not-found.error';
 
 export class OrderRepositoryWrite implements IOrderRepositoryWrite {
   async create(order: IOrder): Promise<IOrder> {
