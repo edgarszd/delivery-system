@@ -32,16 +32,18 @@ export class RestaurantService implements IRestaurantService {
     limit?: number,
     cursor?: string,
   ): Promise<IRestaurant[]> {
-
     if (limit !== undefined && (limit < 1 || limit > 100)) {
       throw new BusinessError('Limit must be between 1 and 100.');
     }
 
     if (cursor) {
-      const restaurant = await this.restaurantRepositoryRead.getRestaurantById(cursor);
-      
+      const restaurant =
+        await this.restaurantRepositoryRead.getRestaurantById(cursor);
+
       if (!restaurant) {
-        throw new NotFoundError(`The restaurant with ID ${cursor} does not exist.`);
+        throw new NotFoundError(
+          `The restaurant with ID ${cursor} does not exist.`,
+        );
       }
     }
 

@@ -14,8 +14,14 @@ export class CategoryController implements IController {
   }
 
   public initRoutes() {
-    this.router.post('/restaurants/:restaurantId/categories', this.createCategory);
-    this.router.get('/restaurants/:restaurantId/categories', this.getAllCategories);
+    this.router.post(
+      '/restaurants/:restaurantId/categories',
+      this.createCategory,
+    );
+    this.router.get(
+      '/restaurants/:restaurantId/categories',
+      this.getAllCategories,
+    );
   }
 
   public getRoutes() {
@@ -23,7 +29,12 @@ export class CategoryController implements IController {
   }
 
   createCategory = async (
-    req: Request<{ restaurantId: string }, {}, Omit<ICategory, 'restaurantId'>, {}>,
+    req: Request<
+      { restaurantId: string },
+      {},
+      Omit<ICategory, 'restaurantId'>,
+      {}
+    >,
     res: Response,
     next: NextFunction,
   ) => {

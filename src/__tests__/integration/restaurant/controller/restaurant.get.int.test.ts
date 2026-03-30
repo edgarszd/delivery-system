@@ -40,9 +40,7 @@ describe('Get Restaurants - Integration Tests', () => {
   it(`Should respect the limit param when paginating restaurants
     status code: 200
     route: GET /restaurants?limit=1`, async () => {
-    const response = await request(app)
-      .get('/restaurants')
-      .query({ limit: 1 });
+    const response = await request(app).get('/restaurants').query({ limit: 1 });
 
     expect(response.status).toBe(200);
 
@@ -77,9 +75,7 @@ describe('Get Restaurants - Integration Tests', () => {
   it(`Should return error when the limit is lower than 1
     status code: 422
     route: GET /restaurants?limit=0`, async () => {
-    const response = await request(app)
-      .get('/restaurants')
-      .query({ limit: 0 });
+    const response = await request(app).get('/restaurants').query({ limit: 0 });
 
     expect(response.status).toBe(422);
   });
