@@ -94,12 +94,20 @@ export class App {
       console.error('Database not provided');
       return;
     }
-
-    mongoose.connect(this.database.dbURI, { dbName: this.database.dbName });
+    mongoose.connection.once('connected', () => {
+      console.log('connect to MongoDB ');
+    });
+    mongoose.connection?.on('error', (err) => {
+      console.error(`error to connect - MongoDB: Error: ${err.message}`);
+    });
+    await mongoose.connect(this.database.dbURI, { dbName: this.database.dbName });    
   }
 
   async closeDatabase() {
-    mongoose.disconnect();
+    mongoose.connection.once('disconnected', () => {
+      console.log(`Mongoose disconnected`);
+    });
+    await mongoose.disconnect();
   }
 
   listen() {
