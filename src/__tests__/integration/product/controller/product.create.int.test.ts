@@ -28,7 +28,7 @@ describe('Create Product - Integration Tests', () => {
   it(`Should create product successfully with valid data
     status code: 201
     route: POST /categories/:id/products`, async () => {
-    const response = await request(app)
+    const response = await request(app.app)
       .post(`/categories/${categoryId}/products`)
       .send(product);
 
@@ -52,7 +52,7 @@ describe('Create Product - Integration Tests', () => {
   route: POST /categories/:id/products`, async () => {
     const inexistingCategoryId = new mongoose.Types.ObjectId().toHexString();
 
-    const response = await request(app)
+    const response = await request(app.app)
       .post(`/categories/${inexistingCategoryId}/products`)
       .send(product);
 
@@ -64,7 +64,7 @@ describe('Create Product - Integration Tests', () => {
   route: POST /categories/:id/products`, async () => {
     product.name = '';
 
-    const response = await request(app)
+    const response = await request(app.app)
       .post(`/categories/${categoryId}/products`)
       .send(product);
 
@@ -76,7 +76,7 @@ describe('Create Product - Integration Tests', () => {
   route: POST /categories/:id/products`, async () => {
     product.price = -1;
 
-    const response = await request(app)
+    const response = await request(app.app)
       .post(`/categories/${categoryId}/products`)
       .send(product);
 
@@ -88,7 +88,7 @@ describe('Create Product - Integration Tests', () => {
   route: POST /categories/:id/products`, async () => {
     product.description = '';
 
-    const response = await request(app)
+    const response = await request(app.app)
       .post(`/categories/${categoryId}/products`)
       .send(product);
 

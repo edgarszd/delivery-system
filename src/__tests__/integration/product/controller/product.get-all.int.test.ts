@@ -4,7 +4,7 @@ import { app } from '../../../../../jest/setup-integration-tests';
 import { MProduct } from '../../../../infrastructure/database/mongo/schemas/product.schema';
 import { dbProductToInternal } from '../../../../infrastructure/repository/product/adapters/product.adapter';
 import { IProduct } from '../../../../domain/product/entity/interfaces/product.interface';
-import { sortById } from '../../../utils-test';
+import { sortById } from '../../../test-utils';
 
 const categoryId = new mongoose.Types.ObjectId().toHexString();
 
@@ -39,7 +39,7 @@ describe('Get All Products - Integration Tests', () => {
   it(`Should return a list of products
     status code: 200
     route: GET /categories/:id/products`, async () => {
-    const response = await request(app).get(
+    const response = await request(app.app).get(
       `/categories/${categoryId}/products`,
     );
 

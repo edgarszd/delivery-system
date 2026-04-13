@@ -8,7 +8,7 @@ import {
   IOrder,
 } from '../../../../domain/order/entity/interfaces/order.interface';
 import { dbOrderToInternal } from '../../../../infrastructure/repository/order/adapters/order.adapter';
-import { sortById } from '../../../utils-test';
+import { sortById } from '../../../test-utils';
 
 const restaurantId = new mongoose.Types.ObjectId().toHexString();
 
@@ -37,7 +37,7 @@ describe('Get All Orders - Integration Tests', () => {
   it(`Should return a list of orders
     status code: 200
     route: GET /restaurants/:id/orders`, async () => {
-    const response = await request(app).get(
+    const response = await request(app.app).get(
       `/restaurants/${restaurantId}/orders`,
     );
 

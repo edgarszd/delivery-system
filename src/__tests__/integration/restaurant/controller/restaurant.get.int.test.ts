@@ -3,7 +3,7 @@ import { app } from '../../../../../jest/setup-integration-tests';
 import { dbRestaurantToInternal } from '../../../../infrastructure/repository/restaurant/adapters/restaurant.adapter';
 import { IRestaurant } from '../../../../domain/restaurant/entity/interfaces/restaurant.interface';
 import { MRestaurant } from '../../../../infrastructure/database/mongo/schemas/restaurant.schema';
-import { sortById } from '../../../utils-test';
+import { sortById } from '../../../test-utils';
 import mongoose from 'mongoose';
 
 let restaurants: IRestaurant[];
@@ -31,7 +31,7 @@ describe('Get Restaurants - Integration Tests', () => {
   it(`Should return 10 first restaurants when no pagination params are provided
     status code: 200
     route: GET /restaurants`, async () => {
-    const response = await request(app).get('/restaurants');
+    const response = await request(app.app).get('/restaurants');
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(restaurants.sort(sortById));
@@ -40,7 +40,9 @@ describe('Get Restaurants - Integration Tests', () => {
   it(`Should respect the limit param when paginating restaurants
     status code: 200
     route: GET /restaurants?limit=1`, async () => {
-    const response = await request(app).get('/restaurants').query({ limit: 1 });
+    const response = await request(app.app)
+      .get('/restaurants')
+      .query({ limit: 1 });
 
     expect(response.status).toBe(200);
 
@@ -54,14 +56,14 @@ describe('Get Restaurants - Integration Tests', () => {
     route: GET /restaurants?limit=1&cursor=<id>`, async () => {
     const allRestaurantsSorted = restaurants.sort(sortById);
 
-    const firstPageResponse = await request(app)
+    const firstPageResponse = await request(app.app)
       .get('/restaurants')
       .query({ limit: 1 });
 
     const firstPageItem = firstPageResponse.body[0];
     const cursor = firstPageItem._id;
 
-    const secondPageResponse = await request(app)
+    const secondPageResponse = await request(app.app)
       .get('/restaurants')
       .query({ limit: 1, cursor });
 
@@ -75,7 +77,9 @@ describe('Get Restaurants - Integration Tests', () => {
   it(`Should return error when the limit is lower than 1
     status code: 422
     route: GET /restaurants?limit=0`, async () => {
-    const response = await request(app).get('/restaurants').query({ limit: 0 });
+    const response = await request(app.app)
+      .get('/restaurants')
+      .query({ limit: 0 });
 
     expect(response.status).toBe(422);
   });
@@ -83,7 +87,7 @@ describe('Get Restaurants - Integration Tests', () => {
   it(`Should return error when the limit is grather than 100
     status code: 422
     route: GET /restaurants?limit=101`, async () => {
-    const response = await request(app)
+    const response = await request(app.app)
       .get('/restaurants')
       .query({ limit: 101 });
 
@@ -95,7 +99,7 @@ describe('Get Restaurants - Integration Tests', () => {
     route: GET /restaurants?cursor=<id>`, async () => {
     const notExistingId = new mongoose.Types.ObjectId().toHexString();
 
-    const response = await request(app)
+    const response = await request(app.app)
       .get('/restaurants')
       .query({ cursor: notExistingId });
 

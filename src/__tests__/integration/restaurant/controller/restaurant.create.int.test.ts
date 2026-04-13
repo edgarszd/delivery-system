@@ -14,7 +14,9 @@ describe('Create Restaurant - Integration Tests', () => {
   it(`Should create restaurant successfully with valid data
     status code: 201
     route: POST /restaurants`, async () => {
-    const response = await request(app).post('/restaurants').send(restaurant);
+    const response = await request(app.app)
+      .post('/restaurants')
+      .send(restaurant);
 
     const createdRestaurant = await MRestaurant.findById(
       response.body._id,
@@ -34,7 +36,9 @@ describe('Create Restaurant - Integration Tests', () => {
   route: POST /restaurants`, async () => {
     restaurant.name = '';
 
-    const response = await request(app).post('/restaurants').send(restaurant);
+    const response = await request(app.app)
+      .post('/restaurants')
+      .send(restaurant);
 
     expect(response.status).toBe(422);
   });
@@ -44,7 +48,9 @@ describe('Create Restaurant - Integration Tests', () => {
   route: POST /restaurants`, async () => {
     restaurant.address = '';
 
-    const response = await request(app).post('/restaurants').send(restaurant);
+    const response = await request(app.app)
+      .post('/restaurants')
+      .send(restaurant);
 
     expect(response.status).toBe(422);
   });

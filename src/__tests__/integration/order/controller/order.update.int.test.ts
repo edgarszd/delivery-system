@@ -24,7 +24,7 @@ describe('Update Order - Integration Tests', () => {
     route: PATCH /orders/:id/status`, async () => {
     const newStatus = EOrderStatus.COMPLETED;
 
-    const response = await request(app)
+    const response = await request(app.app)
       .patch(`/orders/${orderId}/status`)
       .send({ status: newStatus });
 
@@ -44,7 +44,7 @@ describe('Update Order - Integration Tests', () => {
 
     const newStatus = EOrderStatus.COMPLETED;
 
-    const response = await request(app)
+    const response = await request(app.app)
       .patch(`/orders/${wrongOrderId}/status`)
       .send({ status: newStatus });
 

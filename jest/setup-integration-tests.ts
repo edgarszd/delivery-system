@@ -1,22 +1,19 @@
-import { createApp } from '../src/app';
-import { Express } from 'express';
-import mongoose from 'mongoose';
-import { DATABASE_URI, DATABASE_NAME } from '../src/configurations/env-constants';
+import { App } from '../src/app';
 import { MRestaurant } from '../src/infrastructure/database/mongo/schemas/restaurant.schema';
 import { MCategory } from '../src/infrastructure/database/mongo/schemas/category.schema';
 import { MProduct } from '../src/infrastructure/database/mongo/schemas/product.schema';
 import { MOrder } from '../src/infrastructure/database/mongo/schemas/order.schema';
+import { bootstrapApp } from '../src/__tests__/test-utils';
 
-let dbInstance: mongoose.Mongoose;
-export let app: Express;
+export let app: App;
 
 beforeAll(async () => {
-  dbInstance = await mongoose.connect(DATABASE_URI, { dbName: DATABASE_NAME });
-  app = createApp();
+  app = await bootstrapApp();
+  await app.connectToDatabase();
 });
 
 afterAll(async () => {
-  await dbInstance?.connection.close();
+  await app.closeDatabase();
 });
 
 afterEach(async () => {

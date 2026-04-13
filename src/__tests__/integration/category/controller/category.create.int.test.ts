@@ -17,7 +17,7 @@ describe('Create Category - Integration Tests', () => {
   it(`Should create category successfully with valid data
     status code: 201
     route: POST /restaurants/:id/categories`, async () => {
-    const response = await request(app)
+    const response = await request(app.app)
       .post(`/restaurants/${restaurantId}/categories`)
       .send(category);
 
@@ -43,7 +43,7 @@ describe('Create Category - Integration Tests', () => {
 
     await MCategory.create(sameIndexCategory);
 
-    const response = await request(app)
+    const response = await request(app.app)
       .post(`/restaurants/${restaurantId}/categories`)
       .send(category);
 
@@ -55,7 +55,7 @@ describe('Create Category - Integration Tests', () => {
   route: POST /restaurants/:id/categories`, async () => {
     category.name = '';
 
-    const response = await request(app)
+    const response = await request(app.app)
       .post(`/restaurants/${restaurantId}/categories`)
       .send(category);
 
@@ -67,7 +67,7 @@ describe('Create Category - Integration Tests', () => {
   route: POST /restaurants/:id/categories`, async () => {
     category.index = -1;
 
-    const response = await request(app)
+    const response = await request(app.app)
       .post(`/restaurants/${restaurantId}/categories`)
       .send(category);
 

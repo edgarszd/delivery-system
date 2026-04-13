@@ -46,7 +46,7 @@ describe('Create Order - Integration Tests', () => {
   it(`Should create order successfully with valid data
     status code: 201
     route: POST /orders`, async () => {
-    const response = await request(app).post(`/orders`).send(order);
+    const response = await request(app.app).post(`/orders`).send(order);
 
     const createdOrder = await MOrder.findById(response.body._id).lean();
 
@@ -64,7 +64,7 @@ describe('Create Order - Integration Tests', () => {
     route: POST /orders`, async () => {
     order.restaurantId = new mongoose.Types.ObjectId().toHexString();
 
-    const response = await request(app).post(`/orders`).send(order);
+    const response = await request(app.app).post(`/orders`).send(order);
 
     expect(response.status).toBe(404);
   });
@@ -74,7 +74,7 @@ describe('Create Order - Integration Tests', () => {
   route: POST /orders`, async () => {
     order.items[0].productId = new mongoose.Types.ObjectId().toHexString();
 
-    const response = await request(app).post(`/orders`).send(order);
+    const response = await request(app.app).post(`/orders`).send(order);
 
     expect(response.status).toBe(404);
   });
@@ -89,7 +89,7 @@ describe('Create Order - Integration Tests', () => {
 
     order.items.push(wrongOrderProduct);
 
-    const response = await request(app).post(`/orders`).send(order);
+    const response = await request(app.app).post(`/orders`).send(order);
 
     expect(response.status).toBe(422);
   });
@@ -99,7 +99,7 @@ describe('Create Order - Integration Tests', () => {
     route: POST /orders`, async () => {
     order.priceTotal = -1;
 
-    const response = await request(app).post(`/orders`).send(order);
+    const response = await request(app.app).post(`/orders`).send(order);
 
     expect(response.status).toBe(422);
   });
@@ -109,7 +109,7 @@ describe('Create Order - Integration Tests', () => {
     route: POST /orders`, async () => {
     order.items = [];
 
-    const response = await request(app).post(`/orders`).send(order);
+    const response = await request(app.app).post(`/orders`).send(order);
 
     expect(response.status).toBe(422);
   });
@@ -119,7 +119,7 @@ describe('Create Order - Integration Tests', () => {
     route: POST /orders`, async () => {
     order.items[0].quantity = 0;
 
-    const response = await request(app).post(`/orders`).send(order);
+    const response = await request(app.app).post(`/orders`).send(order);
 
     expect(response.status).toBe(422);
   });

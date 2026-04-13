@@ -34,7 +34,7 @@ describe('Get All Categories - Integration Tests', () => {
   it(`Should return a list of categories sorted by index
     status code: 200
     route: GET /restaurants/:id/categories`, async () => {
-    const response = await request(app).get(
+    const response = await request(app.app).get(
       `/restaurants/${restaurantId}/categories`,
     );
 
