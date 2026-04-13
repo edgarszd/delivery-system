@@ -22,7 +22,8 @@ export class RestaurantRepositoryRead implements IRestaurantRepositoryRead {
   }
 
   async getRestaurantById(restaurantId: string): Promise<IRestaurant | null> {
-    const result: IMRestaurant | null = await MRestaurant.findById(restaurantId).lean();
+    const result: IMRestaurant | null =
+      await MRestaurant.findById(restaurantId).lean();
 
     return result ? dbRestaurantToInternal(result) : null;
   }

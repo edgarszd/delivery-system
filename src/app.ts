@@ -1,5 +1,11 @@
 import { readFileSync } from 'fs';
-import express, { Request, Response, NextFunction, RequestHandler, Application } from 'express';
+import express, {
+  Request,
+  Response,
+  NextFunction,
+  RequestHandler,
+  Application,
+} from 'express';
 import swaggerUi from 'swagger-ui-express';
 import * as YAML from 'yaml';
 import * as OpenApiValidator from 'express-openapi-validator';
@@ -14,21 +20,19 @@ export class App {
 
   apiSpecLocation?: string;
 
-  database?: { 
+  database?: {
     dbURI?: string;
     dbName?: string;
-  }
+  };
 
-  middlewares: Array<RequestHandler> = [
-    express.json({ limit: '3mb' }),
-  ];
-  
+  middlewares: Array<RequestHandler> = [express.json({ limit: '3mb' })];
+
   constructor(appConfig: {
     port: number;
     apiSpecLocation?: string;
     middlewares?: Array<RequestHandler>;
     controllers?: Array<IController>;
-    database?: { 
+    database?: {
       dbURI?: string;
       dbName?: string;
     };
@@ -40,7 +44,7 @@ export class App {
     this.middlewares = this.middlewares.concat(appConfig.middlewares || []);
 
     this.useMiddlewares(this.middlewares);
-    
+
     this.useRoutes(appConfig.controllers || []);
 
     this.useCustomizers();
@@ -74,11 +78,11 @@ export class App {
         if (err instanceof OpenApiHttpError) {
           return res.status(err.status).json({ message: err.message });
         }
-    
+
         return res.status(500).json({
-          message: 'An unexpected error occurred!'
+          message: 'An unexpected error occurred!',
         });
-      }
+      },
     );
 
     if (!this.apiSpecLocation) {
@@ -88,7 +92,7 @@ export class App {
     const swaggerDoc = YAML.parse(readFileSync(this.apiSpecLocation, 'utf8'));
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
   }
-  
+
   async connectToDatabase() {
     if (!this.database || !this.database.dbURI) {
       console.error('Database not provided');
@@ -100,7 +104,9 @@ export class App {
     mongoose.connection?.on('error', (err) => {
       console.error(`error to connect - MongoDB: Error: ${err.message}`);
     });
-    await mongoose.connect(this.database.dbURI, { dbName: this.database.dbName });    
+    await mongoose.connect(this.database.dbURI, {
+      dbName: this.database.dbName,
+    });
   }
 
   async closeDatabase() {
