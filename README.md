@@ -105,6 +105,39 @@ Após iniciar o servidor, a documentação interativa da API (Swagger UI) estar�
 http://localhost:3000/api-docs
 ```
 
+## 🐳 Rodando com Docker
+
+Existem duas formas comuns de executar esta aplicação com Docker — escolha uma opção abaixo conforme sua necessidade:
+
+- **Opção A — Build + Run (imagem única)**: gera uma imagem contendo todas as dependências (dev e prod) e executa o container manualmente. Útil para situações simples ou testes rápidos.
+
+	Requisitos de ambiente (variáveis obrigatórias):
+	- `PORT` — porta em que a aplicação vai escutar (ex.: `3000`)
+	- `DATABASE_URI` — URI do MongoDB (ex.: `mongodb://host:27017`)
+	- `DATABASE_NAME` — nome do banco de dados a ser usado
+
+	Observação: não inclua segredos diretamente no repositório. Use um arquivo local `environments/.env` (adicionado ao `.gitignore`) ou um gerenciador de segredos na infraestrutura.
+
+	Build da imagem Docker:
+
+	```bash
+	docker build -t delivery-system:latest .
+	```
+
+	Rodar o container com `--env-file`:
+
+	```bash
+	docker run --env-file environments/.env -p 3000:3000 delivery-system:latest
+	```
+
+- **Opção B — Docker Compose (recomendado para desenvolvimento/local)**: o `docker compose` facilita subir serviços dependentes, compartilhar um `env_file` e orquestrar múltiplos containers. É uma alternativa ao `docker run` e normalmente é a escolha mais prática para desenvolvimento local.
+
+	Para subir com o Compose (o repositório já inclui `compose.yaml`):
+
+	```bash
+	docker compose up --build
+	```
+
 ## 🧪 Testes
 
 O projeto possui testes unitários e de integração:
