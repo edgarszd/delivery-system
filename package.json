@@ -4,8 +4,9 @@
   "main": "server.ts",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
-    "build": "tsc -p .",
-    "start": "node dist/server.js",
+    "build": "tsc -p . && yarn run copy-essentials",
+    "start": "node dist/src/server.js",
+    "copy-essentials": "mkdir -p dist/src/contracts && cp src/contracts/*.yaml dist/src/contracts",
     "test": "yarn run test:unit && yarn run test:int",
     "test:unit": "jest --config ./jest/jest.config.ts --detectOpenHandles",
     "test:int": "jest --runInBand --forceExit --config ./jest/jest.int-config.ts --detectOpenHandles",
