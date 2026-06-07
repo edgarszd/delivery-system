@@ -1,0 +1,7 @@
+services:
+  server:
+    build:
+      context: .
+    env_file: ./environments/.env
+    ports:
+      - 3000:3000
