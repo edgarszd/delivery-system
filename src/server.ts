@@ -28,7 +28,7 @@ const app = new App({
 });
 
 async function start() {
-  app.connectToDatabase();
+  await app.connectToDatabase();
   app.listen();
 }
 
